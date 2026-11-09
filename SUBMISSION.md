@@ -12,7 +12,7 @@ Answer in your own words. Where a question asks for output, paste it in a code b
 
 <!-- replace this line with your answer -->
 
-### Q2. In Cost Explorer, grouping by Service, what is your most expensive service this month (even if it is $0.00)? What would you expect to be expensive in a real Clipstr deployment, and why?
+### Q2. In Cost Explorer, grouping by Service, what is your most expensive service this month (even if it is $0.00)? What would you expect to be expensive in a real Clippy deployment, and why?
 
 **Your answer:**
 

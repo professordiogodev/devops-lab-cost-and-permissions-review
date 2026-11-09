@@ -13,13 +13,13 @@ no_policy() { [ -z "$(aws iam list-policies --scope Local --query "Policies[?Pol
 no_buckets_with_prefix() { [ -z "$(aws s3api list-buckets --query "Buckets[?starts_with(Name, \`$1\`)].Name" --output text)" ]; }
 no_budget() { ! aws budgets describe-budget --account-id "$ACCOUNT" --budget-name "$1" >/dev/null 2>&1; }
 
-check "budget clipstr-monthly is deleted" no_budget clipstr-monthly
-check "policy clipstr-deny-delete is deleted" no_policy clipstr-deny-delete
+check "budget clippy-monthly is deleted" no_budget clippy-monthly
+check "policy clippy-deny-delete is deleted" no_policy clippy-deny-delete
 check "IAM user sam-intern is deleted" no_user sam-intern
-check "IAM group Clipstr-Developers is deleted" no_group Clipstr-Developers
-check "policy ClipstrDeveloperPolicy is deleted" no_policy ClipstrDeveloperPolicy
-check "no cost anomaly monitor named clipstr-* is left" bash -c "[ -z \"\$(aws ce get-anomaly-monitors --query \"AnomalyMonitors[?starts_with(MonitorName, \\\`clipstr\\\`)].MonitorName\" --output text 2>/dev/null)\" ]"
-check "no S3 bucket named clipstr-* is left" no_buckets_with_prefix clipstr-
+check "IAM group Clippy-Developers is deleted" no_group Clippy-Developers
+check "policy ClippyDeveloperPolicy is deleted" no_policy ClippyDeveloperPolicy
+check "no cost anomaly monitor named clippy-* is left" bash -c "[ -z \"\$(aws ce get-anomaly-monitors --query \"AnomalyMonitors[?starts_with(MonitorName, \\\`clippy\\\`)].MonitorName\" --output text 2>/dev/null)\" ]"
+check "no S3 bucket named clippy-* is left" no_buckets_with_prefix clippy-
 
 echo
 if [ "$failn" -eq 0 ]; then echo "TEARDOWN VERIFIED ($pass/$pass) in account $ACCOUNT"; else echo "NOT CLEAN: $failn leftover(s). Delete them (console or CLI) and run this again."; fi
