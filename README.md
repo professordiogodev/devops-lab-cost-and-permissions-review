@@ -1,6 +1,4 @@
-# AWS: The Surprise Bill and the Permission Audit
-
-The CFO forwards an email: "Why is the AWS bill not zero?" Set up cost guardrails before there is a real bill, then use the Policy Simulator and Access Advisor to prove the permissions you gave are the permissions needed.
+<p align="center"><img src="assets/banner.svg" alt="AWS: The Surprise Bill and the Permission Audit" width="100%"></p>
 
 | | |
 |-|-|
@@ -17,9 +15,10 @@ The CFO forwards an email: "Why is the AWS bill not zero?" Set up cost guardrail
 5. Commit and push. Open the **Actions** tab of your fork (click *I understand my workflows, go ahead and enable them* the first time). The **Lab check** shows what is still missing.
 6. When the check is green, **submit the URL of your fork** in the course platform.
 
+> [!NOTE]
 > The check only looks at your answers and any files the lab asks you to commit. Your instructor reads your work and may ask you to explain any line.
 
----
+<p align="center"><img src="assets/divider.svg" alt="" width="100%"></p>
 
 ## The situation
 
@@ -27,6 +26,7 @@ Thursday. The CFO forwards you an email from AWS: *"Your free tier usage is at 8
 
 Two jobs, both console work, both about **trust**: trust in the bill and trust in the permissions. You will set the guardrails up before anyone is surprised, and then check, with AWS's own tools, that the access you handed out is the access that is needed.
 
+> [!IMPORTANT]
 > **Your mission**
 > - Create a **budget** that warns you before the money is spent
 > - Explore where money goes in **Cost Explorer**, and make costs attributable with **tags**
@@ -38,7 +38,7 @@ Two jobs, both console work, both about **trust**: trust in the bill and trust i
 
 > Billing pages are available to the account root user and to IAM users **only if** "IAM user and role access to Billing information" is activated. If you cannot see **Billing**, open **Account** (top right) and enable it for IAM users.
 
----
+<p align="center"><img src="assets/divider.svg" alt="" width="100%"></p>
 
 ## Part 1 - Recon: where do I look?
 
@@ -47,9 +47,10 @@ Two jobs, both console work, both about **trust**: trust in the bill and trust i
 3. Find the **Bills** page. What does the current month's total say?
 4. In **Budgets**, are there any budgets already? Many accounts have none until the first surprise.
 
+> [!NOTE]
 > **Predict** What do you think is the most expensive thing a beginner can leave running on AWS by accident? Write a guess of three items, you will compare with the Cost Explorer ranking in a real account later.
 
----
+<p align="center"><img src="assets/divider.svg" alt="" width="100%"></p>
 
 ## Part 2 - Build the guardrail: a budget
 
@@ -63,11 +64,13 @@ Create a **Cost budget** (Budgets -> Create budget -> Customize -> Cost budget):
 
 Open the budget after creating it and read the **budget details** page.
 
+> [!NOTE]
 > **Think** Alert 2 is a *forecast*. Why is that more useful than an alert on the actual spend? What does AWS need before it can forecast (look at the notes in the console)? What does a budget **not** do: does it stop spending?
 
+> [!WARNING]
 > **Break it** A forgotten NAT Gateway costs about $32 a month plus data. If you created one on the 1st of the month and forgot it, on which day would each of your two alerts fire? Do the arithmetic.
 
----
+<p align="center"><img src="assets/divider.svg" alt="" width="100%"></p>
 
 ## Part 3 - See and attribute the spend
 
@@ -75,9 +78,10 @@ Open the budget after creating it and read the **budget details** page.
 2. Tags decide whether you can answer *"Which project spent this?"*. In Billing -> **Cost allocation tags**, find the tag `Project` (it only appears if some resource has it, tag any S3 bucket or IAM user with `Project=clipstr` first if needed). Activate it.
 3. Tags take up to 24 hours to appear in reports. For now, open **Resource Groups & Tag Editor -> Tag Editor**, search for resources across Regions, and list the ones **without** a `Project` tag.
 
+> [!NOTE]
 > **Think** Which part of your account would be impossible to attribute if you had not tagged anything? What is a simple team rule you would put in a pull-request template to keep tags consistent?
 
----
+<p align="center"><img src="assets/divider.svg" alt="" width="100%"></p>
 
 ## Part 4 - Prove the permissions: Policy Simulator
 
@@ -87,13 +91,15 @@ Open the **IAM Policy Simulator** (search for "Policy Simulator" or `policysim.a
 2. Select the services EC2 and S3, then run `ec2:RunInstances`, `s3:GetObject` and `s3:PutObject` **with a resource**: type the ARN of the uploads bucket objects (`arn:aws:s3:::clipstr-uploads-XXXX/*`). Repeat with the finance bucket.
 3. For each row, read the result and click **Show statement** or the matched policy. Which statement allowed it, or what denied it?
 
+> [!NOTE]
 > **Predict** Before you run each row, write allowed or denied. How many did you get right?
 
 Save the results for your submission. Then use the simulator on a policy you write: switch to **New Simulation**, paste a small policy that allows `s3:*` on `*`, and run `s3:DeleteBucket`. What does the simulator say?
 
+> [!WARNING]
 > **Break it** Create a policy named `clipstr-deny-delete` with a `Deny` on `s3:DeleteObject` for the uploads bucket and attach it to Sam's group. Run the simulator again for `s3:DeleteObject`. Allow and Deny are both present; which wins, and what is this rule called?
 
----
+<p align="center"><img src="assets/divider.svg" alt="" width="100%"></p>
 
 ## Part 5 - Find unused permissions: Access Advisor
 
@@ -101,9 +107,10 @@ Save the results for your submission. Then use the simulator on a policy you wri
 2. Do the same for `sam-intern`. If he has barely used anything, what would you do with a permission that nobody has used for 90 days?
 3. Open **IAM -> Credential report** (Account settings or Access reports). Download it. Find: users with a password but no MFA, access keys never used, keys older than 90 days.
 
+> [!NOTE]
 > **Think** Access Advisor shows *service-level* last access, with a delay. Why is this a good tool for shrinking permissions but not for proving a user *cannot* do something?
 
----
+<p align="center"><img src="assets/divider.svg" alt="" width="100%"></p>
 
 ## Part 6 - The organisation view (read and think)
 
@@ -113,7 +120,7 @@ Read the AWS documentation page *"Service control policies (SCPs)"*, then answer
 2. What is the difference between an SCP and an IAM policy? Which one grants permissions?
 3. Write in plain English three guardrails you would apply to **every** Clipstr account (for example: deny leaving the company's approved Regions, deny disabling CloudTrail, deny creating IAM users with access keys).
 
----
+<p align="center"><img src="assets/divider.svg" alt="" width="100%"></p>
 
 ## Level up (optional)
 
