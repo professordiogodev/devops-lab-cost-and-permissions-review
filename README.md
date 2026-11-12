@@ -118,7 +118,7 @@ Save the results for your submission. Then use the simulator on a policy you wri
 ## Part 5 - Find unused permissions: Access Advisor
 
 1. Open **IAM -> Users -> your admin user -> Access Advisor** (also called *Last accessed*). Which services show a recent access time? Which have never been used?
-2. Do the same for `sam-intern`. If he has barely used anything, what would you do with a permission that nobody has used for 90 days?
+2. Do the same for `sam-intern`. If they have barely used anything, what would you do with a permission that nobody has used for 90 days?
 3. Open **IAM -> Credential report** (Account settings or Access reports). Download it. Find: users with a password but no MFA, access keys never used, keys older than 90 days.
 
 > [!NOTE]
