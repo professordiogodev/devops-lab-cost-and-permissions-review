@@ -2,9 +2,17 @@
 
 ## The situation
 
-Thursday. The CFO forwards you an email from AWS: *"Your free tier usage is at 85%."* Underneath she wrote: *"I thought AWS was free for a year. Why am I getting emails about money? And while I have you: the investors asked whether the intern can do more than we think. Can you prove he cannot?"*
+```text
+From    : the CFO
+To      : you
+Subject : Fwd: Your AWS free tier usage is at 85%
 
-Two jobs, both console work, both about **trust**: trust in the bill and trust in the permissions. You will set the guardrails up before anyone is surprised, and then check, with AWS's own tools, that the access you handed out is the access that is needed.
+I thought AWS was free for a year. Why am I getting e-mails about money?
+And while I have you: the investors asked whether the intern can do more
+than we think. Can you prove the intern cannot?
+```
+
+Two jobs, both console work, both about **trust**: trust in the bill and trust in the permissions. You will put guardrails in place before anyone is surprised, and then check, with AWS's own tools, that the access you handed out is the access that is needed.
 
 > **Your mission**
 > - Create a **budget** that warns you before the money is spent
